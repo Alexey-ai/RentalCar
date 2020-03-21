@@ -1,0 +1,64 @@
+﻿@model RentalCar.Models.OrderModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>OrderModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="AutoID" class="control-label"></label>
+                <select asp-for="AutoID" class="form-control" asp-items="ViewBag.AutoID"></select>
+                <span asp-validation-for="AutoID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DriverID" class="control-label"></label>
+                <select asp-for="DriverID" class="form-control" asp-items="ViewBag.DriverID"></select>
+                <span asp-validation-for="DriverID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderStartDate" class="control-label"></label>
+                <input asp-for="OrderStartDate" class="form-control" />
+                <span asp-validation-for="OrderStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderEndDate" class="control-label"></label>
+                <input asp-for="OrderEndDate" class="form-control" />
+                <span asp-validation-for="OrderEndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderMilleage" class="control-label"></label>
+                <input asp-for="OrderMilleage" class="form-control" />
+                <span asp-validation-for="OrderMilleage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderDayCount" class="control-label"></label>
+                <input asp-for="OrderDayCount" class="form-control" />
+                <span asp-validation-for="OrderDayCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalPrice" class="control-label"></label>
+                <input asp-for="TotalPrice" class="form-control" />
+                <span asp-validation-for="TotalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
