@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-RentalCar-A4B6797A-8F91-45AB-BFFD-0B853CE10A72</UserSecretsId>
+    <UserSecretsId>aspnet-RentalCar-92DD0EAE-E9E8-495C-905A-248E7B073D36</UserSecretsId>
   </PropertyGroup>
 
 
