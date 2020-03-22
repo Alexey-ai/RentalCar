@@ -49,8 +49,8 @@ namespace RentalCar.Controllers
         // GET: OrderModels/Create
         public IActionResult Create()
         {
-            ViewData["AutoID"] = new SelectList(_context.Auto, "ID", "CarMake");
-            ViewData["DriverID"] = new SelectList(_context.Drivers, "ID", "DriveLisence");
+            AutoAviableDropDownList();
+            ViewData["DriverID"] = new SelectList(_context.Drivers, "ID", "FullName");
             return View();
         }
 
@@ -59,17 +59,22 @@ namespace RentalCar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,AutoID,DriverID,OrderStartDate,OrderEndDate,OrderMilleage,OrderDayCount,TotalPrice")] OrderModel orderModel)
+        public async Task<IActionResult> Create([Bind("ID,AutoID,DriverID,OrderStartDate")] OrderModel order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(orderModel);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
+
+                var auto = await _context.Auto.FindAsync(order.AutoID);
+                auto.Aviability = false;
+                _context.Update(auto);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AutoID"] = new SelectList(_context.Auto, "ID", "CarMake", orderModel.AutoID);
-            ViewData["DriverID"] = new SelectList(_context.Drivers, "ID", "DriveLisence", orderModel.DriverID);
-            return View(orderModel);
+
+            return View(order);
         }
 
         // GET: OrderModels/Edit/5
@@ -85,7 +90,7 @@ namespace RentalCar.Controllers
             {
                 return NotFound();
             }
-            ViewData["AutoID"] = new SelectList(_context.Auto, "ID", "CarMake", orderModel.AutoID);
+            AutoAviableDropDownList();
             ViewData["DriverID"] = new SelectList(_context.Drivers, "ID", "DriveLisence", orderModel.DriverID);
             return View(orderModel);
         }
@@ -158,9 +163,82 @@ namespace RentalCar.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult CloseOrderList()
+        {
+            var orderQuery = from o in _context.Orders.Include(o => o.Auto).Include(o => o.Driver)
+                             orderby o.ID
+                             where o.OrderEndDate == null
+                             select o;
+            return View(orderQuery.ToList());
+        }
+            public async Task<IActionResult> CloseOrder(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Orders.Include(o => o.Auto).Include(o => o.Driver).FirstOrDefaultAsync(m => m.ID == id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
+
+        // POST: Orders/Close
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CloseOrder([Bind("ID,AutoID,DriverID,OrderStartDate,OrderEndDate,OrderMilleage")] OrderModel order)
+        {
+            if (ModelState.IsValid)
+            {
+                order.OrderDayCount = (order.OrderEndDate.GetValueOrDefault()-order.OrderStartDate).Days + 1;
+
+                var auto = await _context.Auto.FindAsync(order.AutoID);
+                auto.Aviability = true;
+                auto.Mileage += order.OrderMilleage.GetValueOrDefault();
+
+                order.TotalPrice = auto.Price * order.OrderDayCount;
+
+                //если пробег больше 100км в день каждый оплачивается 20р/км
+                int extraMilleage = (order.OrderMilleage.Value - order.OrderDayCount.Value * 100);
+                if (extraMilleage > 0)
+                {
+                    order.TotalPrice += extraMilleage * 20;
+                }
+                
+                _context.Update(order);
+
+                await _context.SaveChangesAsync();
+                _context.Update(auto);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(order);
+        }
+
         private bool OrderModelExists(int id)
         {
             return _context.Orders.Any(e => e.ID == id);
+        }
+
+        private void AutoAviableDropDownList()
+        {
+            var autosQuery = from b in _context.Auto
+                             orderby b.ID
+                             where b.Aviability != false
+                             select b;
+            ViewData["AutoID"] = new SelectList(autosQuery.AsNoTracking(), "ID", "FullName");
+        }
+        private void AutoNotAviableDropDownList()
+        {
+            var autosQuery = from b in _context.Auto
+                             orderby b.ID
+                             where b.Aviability == false
+                             select b;
+            ViewData["AutoID"] = new SelectList(autosQuery.AsNoTracking(), "ID", "FullName");
         }
     }
 }

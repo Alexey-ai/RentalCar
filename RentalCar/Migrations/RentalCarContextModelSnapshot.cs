@@ -15,7 +15,7 @@ namespace RentalCar.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "5.0.0-preview.2.20120.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -26,7 +26,7 @@ namespace RentalCar.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Aviablity")
+                    b.Property<bool>("Aviability")
                         .HasColumnType("bit");
 
                     b.Property<int>("Capacity")
@@ -36,14 +36,14 @@ namespace RentalCar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("EngineCapacity")
-                        .HasColumnType("float");
+                    b.Property<string>("EngineCapacity")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EngineType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("FuelConsuption")
-                        .HasColumnType("float");
+                    b.Property<string>("FuelConsuption")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Issue")
                         .HasColumnType("datetime2");

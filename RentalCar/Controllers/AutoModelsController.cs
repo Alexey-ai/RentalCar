@@ -54,7 +54,7 @@ namespace RentalCar
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,CarMake,Model,Issue,Capacity,FuelConsuption,EngineType,EngineCapacity,TransmissionType,Price,Aviablity,Mileage")] AutoModel autoModel)
+        public async Task<IActionResult> Create([Bind("ID,CarMake,Model,Issue,Capacity,FuelConsuption,EngineType,EngineCapacity,TransmissionType,Price,Aviability,Mileage")] AutoModel autoModel)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace RentalCar
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,CarMake,Model,Issue,Capacity,FuelConsuption,EngineType,EngineCapacity,TransmissionType,Price,Aviablity,Mileage")] AutoModel autoModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,CarMake,Model,Issue,Capacity,FuelConsuption,EngineType,EngineCapacity,TransmissionType,Price,Aviability,Mileage")] AutoModel autoModel)
         {
             if (id != autoModel.ID)
             {

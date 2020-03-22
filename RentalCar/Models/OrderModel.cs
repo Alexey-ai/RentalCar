@@ -18,8 +18,8 @@ namespace RentalCar.Models
         public int? OrderMilleage { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime? OrderDayCount { get; set; }
-        public int TotalPrice { get; set; }
+        public int? OrderDayCount { get; set; }
+        public int? TotalPrice { get; set; }
 
         public AutoModel Auto { get; set; }
         public DriverModel Driver { get; set; }

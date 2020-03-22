@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RentalCar.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,12 +17,12 @@ namespace RentalCar.Migrations
                     Model = table.Column<string>(nullable: false),
                     Issue = table.Column<DateTime>(nullable: false),
                     Capacity = table.Column<int>(nullable: false),
-                    FuelConsuption = table.Column<double>(nullable: false),
+                    FuelConsuption = table.Column<string>(nullable: true),
                     EngineType = table.Column<string>(nullable: true),
-                    EngineCapacity = table.Column<double>(nullable: false),
+                    EngineCapacity = table.Column<string>(nullable: true),
                     TransmissionType = table.Column<string>(nullable: false),
                     Price = table.Column<int>(nullable: false),
-                    Aviablity = table.Column<bool>(nullable: false),
+                    Aviability = table.Column<bool>(nullable: false),
                     Mileage = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

@@ -21,10 +21,10 @@ namespace RentalCar.Models
         public DateTime Issue { get; set; }
 
         public int Capacity { get; set; }
-        public double FuelConsuption { get; set; }
+        public string FuelConsuption { get; set; }
         public string EngineType { get; set; }
 
-        public double EngineCapacity {get; set; }
+        public string EngineCapacity {get; set; }
 
         [Required]
         [RegularExpression(@"^[A-Z]")]
@@ -32,7 +32,7 @@ namespace RentalCar.Models
         [Required]
         public int Price { get; set; }
 
-        public bool Aviablity { get; set; }
+        public bool Aviability { get; set; }
         public int Mileage { get; set; }
         public ICollection<OrderModel> Orders { get; set; }
         public List<PictureModel> Pictures { get; set; } = new List<PictureModel>();
